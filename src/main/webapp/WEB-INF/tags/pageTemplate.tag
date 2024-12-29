@@ -12,9 +12,10 @@
 <body>
 
 <jsp:include page="/WEB-INF/pages/menu.jsp" />
-<main class="container-fluid mt-5">
+<main class="container-fluid mt-5 pt-2">
 <jsp:doBody/>
     <jsp:include page="/WEB-INF/pages/footer.jsp" />
+    <script src="${pageContext.request.contextPath}/scripts/form-validation.js"></script>
 </main>
 
 </body>

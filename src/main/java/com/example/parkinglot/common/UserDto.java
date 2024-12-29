@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class UserDto {
-
     Long id;
     String username;
     String email;
@@ -39,5 +38,4 @@ public class UserDto {
                 ))
                 .collect(Collectors.toList());
     }
-
 }
