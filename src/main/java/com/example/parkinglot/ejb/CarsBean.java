@@ -9,6 +9,8 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import com.example.parkinglot.entities.User;
+import com.example.parkinglot.entities.CarPhoto;
+import com.example.parkinglot.common.CarPhotoDto;
 
 import java.util.Collection;
 import java.util.List;
@@ -89,4 +91,32 @@ public class CarsBean {
             entityManager.remove(car);
         }
     }
+
+    public void addPhotoToCar(Long carId, String filename, String fileType, byte[] fileContent) {
+        LOG.info("addPhotoToCar");
+        CarPhoto photo = new CarPhoto();
+        photo.setFilename(filename);
+        photo.setFileType(fileType);
+        photo.setFileContent(fileContent);
+        Car car = entityManager.find(Car.class, carId);
+        if (car.getPhoto() != null) {
+            entityManager.remove(car.getPhoto());
+        }
+        car.setPhoto(photo);
+        photo.setCar(car);
+        entityManager.persist(photo);
+    }
+    public CarPhotoDto findPhotoByCarId(Integer carId) {
+        List<CarPhoto> photos = entityManager
+                .createQuery("SELECT p FROM CarPhoto p where p.car.id = :id", CarPhoto.class)
+                .setParameter("id", carId)
+                .getResultList();
+        if (photos.isEmpty()) {
+            return null;
+        }
+        CarPhoto photo = photos.get(0); // the first element
+        return new CarPhotoDto(photo.getFilename(), photo.getFileType(), photo.getFileContent(),
+                photo.getId());
+    }
+
 }
