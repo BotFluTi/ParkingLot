@@ -6,8 +6,11 @@
 
     <h1>Users</h1>
 
-    <div class="container text-center">
+    <c:if test="${pageContext.request.isUserInRole('WRITE_USERS')}">
+        <a href="${pageContext.request.contextPath}/AddUser" class="btn btn-primary btn-lg">Add User</a>
+    </c:if>
     <c:forEach var="user" items="${users}">
+        <div class="container text-center">
         <div class="row">
             <div class="col">
                     ${user.username}
@@ -16,7 +19,7 @@
                     ${user.email}
             </div>
         </div>
+        </div>
     </c:forEach>
-    </div>
 
 </t:pageTemplate>
